@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductLabelPrinting.Web", "ProductLabelPrinting.Web\ProductLabelPrinting.Web.csproj", "{64B56BE8-2E2B-4362-98CA-AA6CC2570FB3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductLabelPrinting.Models", "ProductLabelPrinting.Models\ProductLabelPrinting.Models.csproj", "{ECAA9972-F787-4F0B-ACA2-C65147BF0A88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductLabelPrinting.Repository", "ProductLabelPrinting.Repository\ProductLabelPrinting.Repository.csproj", "{64944B77-D2B2-428D-A398-266FD0E7C86A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductLabelPrinting.Services", "ProductLabelPrinting.Services\ProductLabelPrinting.Services.csproj", "{F54137AF-E6A7-4B12-8E24-064B396D1F8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductLabelPrinting.Data", "ProductLabelPrinting.Data\ProductLabelPrinting.Data.csproj", "{ADE3FBB3-C2E1-419D-9ACE-0F1B5256F7E7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{64B56BE8-2E2B-4362-98CA-AA6CC2570FB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64B56BE8-2E2B-4362-98CA-AA6CC2570FB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64B56BE8-2E2B-4362-98CA-AA6CC2570FB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64B56BE8-2E2B-4362-98CA-AA6CC2570FB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECAA9972-F787-4F0B-ACA2-C65147BF0A88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECAA9972-F787-4F0B-ACA2-C65147BF0A88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECAA9972-F787-4F0B-ACA2-C65147BF0A88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECAA9972-F787-4F0B-ACA2-C65147BF0A88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64944B77-D2B2-428D-A398-266FD0E7C86A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64944B77-D2B2-428D-A398-266FD0E7C86A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64944B77-D2B2-428D-A398-266FD0E7C86A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64944B77-D2B2-428D-A398-266FD0E7C86A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F54137AF-E6A7-4B12-8E24-064B396D1F8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F54137AF-E6A7-4B12-8E24-064B396D1F8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F54137AF-E6A7-4B12-8E24-064B396D1F8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F54137AF-E6A7-4B12-8E24-064B396D1F8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADE3FBB3-C2E1-419D-9ACE-0F1B5256F7E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADE3FBB3-C2E1-419D-9ACE-0F1B5256F7E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADE3FBB3-C2E1-419D-9ACE-0F1B5256F7E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADE3FBB3-C2E1-419D-9ACE-0F1B5256F7E7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D792CB0C-64D5-472E-A234-9D084B49D6B9}
+	EndGlobalSection
+EndGlobal

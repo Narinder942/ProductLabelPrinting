@@ -1,0 +1,125 @@
+﻿@model ProductLabelPrinting.Models.UIModels.ProductMasterUIModel
+@using ProductLabelPrinting.Models.Models
+@using ProductLabelPrinting.Web.Helpers
+
+@{
+    ViewBag.Title = "ProductBatch";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var BatchModel = new List<BatchModel>();
+    var employeeObject = new ProductLabelPrinting.Models.Models.EmployeeModel();
+
+    if (Session[SessionHelper.UserDetail] != null)
+    {
+        employeeObject = (Session[SessionHelper.UserDetail] as ProductLabelPrinting.Models.Models.EmployeeModel);
+    }
+}
+
+<style>
+    .modal-lg, .modal-xl {
+        --bs-modal-width: 90%;
+    }
+</style>
+
+<div class="pagetitle">
+    <h1>Products</h1>
+    @*<nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/Account/Dashboard">Home</a></li>
+                <li class="breadcrumb-item active">Products</li>
+            </ol>
+        </nav>*@
+</div><!-- End Page Title -->
+
+<section class="section">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    @*<h5 class="card-title">Products</h5>*@
+                    <div class="col-md-12" style="width:100%; overflow:auto">
+                        <br />
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Sr.No</th>
+                                    <th>Product Name</th>
+                                    <th>Unique Code</th>
+                                    <th>CAS</th>
+                                    <th>Chemical Formula</th>
+                                    <th>Manufacture License</th>
+                                    <th>Molecular Weight</th>
+                                    <th>Master Label</th>
+                                    <th>Storage Condition</th>
+                                    <th>Created By</th>
+                                    <th>Created On</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.productMasterList.Select((x, i) => new { Data = x, index = i }))
+                                {
+                                    <tr>
+                                        <td>@(item.index+1)</td>
+                                        <td>@item.Data.ProductName</td>
+                                        <td>@item.Data.UniqueCode</td>
+                                        <td>@item.Data.CAS</td>
+                                        <td>@item.Data.ChemicalFormula</td>
+                                        <td>@item.Data.ManufacturerLicence</td>
+                                        <td>@item.Data.MolecularWeight</td>
+                                        <td>@item.Data.MasterLabel</td>
+                                        <td>@item.Data.StorageConditon</td>
+                                        <td>@item.Data.CreatedBy</td>
+                                        <td>@item.Data.CreatedOn</td>
+                                        <td>
+                                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#BatchListModal" data-productId="@item.Data.Id" class="btnViewBatch">View </a>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade modal-lg" id="BatchListModal" tabindex="-1">
+    @Html.Partial("Partials/_BatchList", BatchModel)
+</div><!-- End Basic Modal-->
+
+@section scripts{
+
+    <script type="text/javascript">
+
+       $(".btnViewBatch").on("click", function () {
+
+        $.ajax({
+        type: "GET",
+        url: '@Url.Action("GetProductBatchDetailList", "Product")',
+        data: { productId: $(this).attr("data-productId") },
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                $("#tblBatchList > tbody").html("");
+
+                $.each(data.Response, function (index, item) {
+                    $("#tblBatchList > tbody").append("<tr><td>" + (index + 1) + "</td><td>" + item.BatchNo + "</td><td>" + item.BatchSize + "</td><td>" + item.ManufactureDate + "</td><td>" + item.ManufStatus + "</td><td>" + item.ManufDate + "</td><td>" + item.ManufacturerLicence + "</td><td>" + item.MasterLabel + "</td><td>" + item.NetWeight + "</td><td>" + item.TareWeight + "</td><td>" + item.GrossWeight + "</td><td>" + item.Container + "</td><td>" + item.CreatedBy + "</td><td>" + item.CreatedOn + "</td><td><a target='_blank' href='/Report/Index?productId=" + item.ProductId + "&batchId=" + item.BatchId + "'>pdf</a></td></tr>");
+                });
+
+                $('#BatchListModal').modal('show');
+
+        },
+        error: function () {
+            alert("Error while fetching data");
+        }
+    });
+})
+    </script>
+}
+
+
+

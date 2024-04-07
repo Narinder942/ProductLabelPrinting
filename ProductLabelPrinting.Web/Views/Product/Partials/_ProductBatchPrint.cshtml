@@ -1,0 +1,313 @@
+﻿@model ProductLabelPrinting.Models.UIModels.ProductBatchPrintUIModel
+@{
+
+    Layout = null;
+}
+
+<div id="dvUpdateTargetId">
+    @using (Ajax.BeginForm("ProductBatchPrint", "Product", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "dvUpdateTargetId", OnSuccess = "AjaxOnSuccess()" }, new { autocomplete = "off", id = "frmProductBatchPrint" }))
+    {
+        <h3>Product Batch Print</h3>
+
+        @*<div class="row">*@
+
+        if (Model.ShowPackedQuantityMessage)
+        {
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle me-1"></i>
+                Packed Qty should not be greater then batch size
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+
+        @*</div>*@
+
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.BatchId)
+        @Html.HiddenFor(x => x.AddBatchStaus)
+        @Html.HiddenFor(x => x.TotalPackedQuantity)
+        <div class="card-body">
+            <br />
+            <div class="row">
+                <label for="inputText" class="col-sm-2 col-form-label">Product Name:</label>
+                <div class="col-sm-7">
+                    @Html.DropDownListFor(x => x.selectedProductList, new SelectList(Model.productList, "Id", "ProductName"), "Select Product", new { @class = "form-control" })
+                </div>
+
+                <div class="col-sm-3">
+                    <label for="inputText" class="col-sm-4 col-form-label">Neutral :</label> @Html.CheckBoxFor(m => m.batchMasterUIModel.NeutralLabel)
+                </div>
+            </div>
+            <div class="row mt-2">
+                <label for="inputText" class="col-sm-2 col-form-label">Unique Code:</label>
+                <div class="col-sm-4">
+                    <input type="text" id="UniqueCode" disabled class="form-control" />
+                </div>
+                <div class="col-sm-1 mt-2">
+                    <i class="bi bi-search"></i>
+                </div>
+                <label for="inputText" class="col-sm-1 col-form-label">CAS #:</label>
+                <div class="col-sm-4">
+                    <input type="text" id="CAS" disabled class="form-control" />
+                </div>
+            </div>
+            <div class="row mt-2">
+                <label for="inputText" class="col-sm-2 col-form-label">Chemical:</label>
+                <div class="col-sm-4">
+                    <input type="text" id="ChemicalFormula" disabled class="form-control" />
+                </div>
+
+                <label for="inputText" class="col-sm-2 col-form-label">Mfg.License #:</label>
+                <div class="col-sm-4">
+                    @*<input type="text" id="@Model.ManufacturerLicence" disabled class="form-control" />*@
+                    @Html.TextBoxFor(x => x.batchMasterUIModel.ManufactureLicense, new { @class = "form-control", disabled = "true" })
+                </div>
+            </div>
+            <div class="row mt-2">
+                <label for="inputText" class="col-sm-2 col-form-label">Molecular Weight:</label>
+                <div class="col-sm-4">
+                    <input type="text" id="MolecularWeight" disabled class="form-control" />
+                </div>
+
+                <label for="inputText" class="col-sm-2 col-form-label">Master Label #:</label>
+                <div class="col-sm-4">
+                    @*<input type="text" id="@Model.MasterLabel" disabled class="form-control" />*@
+                    @Html.TextBoxFor(x => x.batchMasterUIModel.MasterLabel, new { @class = "form-control", disabled = "true" })
+                </div>
+            </div>
+            <div class="row mt-2">
+                <label for="inputText" class="col-sm-2 col-form-label">Storage Condition:</label>
+                <div class="col-sm-10">
+                    <textarea id="StorageConditon" class="form-control" disabled></textarea>
+                </div>
+            </div>
+            <div class="row" style="border-color:darkgray">
+
+                <div class="row mt-2">
+                    <label for="inputText" class="col-sm-2 col-form-label">Batch #:</label>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(x => x.batchMasterUIModel.BatchNo, new { @class = "form-control" })
+                    </div>
+
+                    <label for="inputText" class="col-sm-2 col-form-label">Batch Size:</label>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(x => x.batchMasterUIModel.BatchSize, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <label for="inputText" class="col-sm-2 col-form-label">Mfg. Date:</label>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(x => x.batchMasterUIModel.ManufactureDate, new { @class = "form-control monthYearPicker" })
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.TextBoxFor(model => model.batchMasterUIModel.ManufStatus, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                    <div class="col-sm-3">
+                        @Html.TextBoxFor(x => x.batchMasterUIModel.ManufDate, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+            </div>
+            @if (Model.ReturnResponse)
+            {
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle me-1"></i>
+                    @Model.ReturnMessage
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            <div class="row mt-3">
+
+                <div class="col-sm-2">
+                    Net Wt.:@Html.TextBoxFor(x => x.batchContainerMasterUIModel.NetWeight, new { @class = "form-control" })
+
+                </div>
+                <div class="col-sm-2">
+                    Tare Wt.: @Html.TextBoxFor(x => x.batchContainerMasterUIModel.TareWeight, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-2">
+                    Gross Wt.: @Html.TextBoxFor(x => x.batchContainerMasterUIModel.GrossWeight, new { @class = "form-control", @readonly = "readonly" })
+                </div>
+                <div class="col-sm-2">
+                    # Of Containers.: @Html.TextBoxFor(x => x.batchContainerMasterUIModel.Container, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-2 mt-4">
+                    @if (Model.ShowBatchAddButton)
+                    {
+                        <input type="submit" id="btnAddBatch" name="btnAddBatch" class="btn btn-secondary" value="Add More" />
+                    }
+                    else
+                    {
+
+                        <input type="submit" id="btnAddMore" name="btnAddMore" class="btn btn-secondary" value="Add More" />
+                    }
+
+                </div>
+            </div>
+            <div class="row">
+
+                @*<div class="col-md-3"></div>*@
+                <div class="col-md-12 mt-2" style="height: 300px; overflow: auto; border-style: groove;">
+                    <br />
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Sr No </th>
+                                <th>Net Weight</th>
+                                <th>Tare Weight</th>
+                                <th>Gross Weight</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.batchContainerItemUIModel.Select((x, i) => new { Data = x, index = i }))
+
+                            {
+                                <tr>
+                                    <td>@(item.index+1)</td>
+                                    <td>@item.Data.NetWeight</td>
+                                    <td>@item.Data.TareWeight</td>
+                                    <td>@item.Data.GrossWeight</td>
+                                    <td>
+                                        <a><i class="bi bi-trash" aria-hidden="true"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                @if (Model.ShowSaveMessage)
+                {
+                    <div class="alert alert-success alert-dismissible fade show  mt-2" role="alert">
+                        <i class="bi bi-check-circle me-1"></i>
+                        Items are susscessfully saved
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+                <div class="row text-center mt-2">
+                    <div class="col-md-3">
+                        <label for="inputText" class="col-sm-7 col-form-label">Packed Qty.</label>
+                        @Html.TextBoxFor(x => x.batchContainerMasterUIModel.PackedQuantity, new { @class = "col-sm-5", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-6 mt-4">
+                        @if (Model.batchContainerItemUIModel.ToList().Count > 0)
+                        {
+                            <input type="submit" id="btnSubmit" @(Model.ShowSaveMessage == true ? "disabled" : "") name="btnSubmit" class="btn btn-success" width="100px" value="Submit" />
+                            <input type="submit" id="btnPrint" name="btnPrint" class="btn btn-primary" width="100px" value="Print" />
+                        }
+                    </div>
+                    <div class="col-md-3">
+                        <label for="inputText" class="col-sm-7 col-form-label">Total Containers</label>
+                        @Html.TextBoxFor(x => x.TotalContainer, new { @class = "col-sm-5", @readonly = "readonly" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+<script type="text/javascript">
+
+      $(document).ready(function () {
+
+          $('.monthYearPicker').datepicker({
+              format: "MM yyyy",
+              startView: 1,
+              minViewMode: 1,
+              autoclose: true
+          });
+
+          if (parseFloat($("#selectedProductList").val()) >= 1) {
+              $("#selectedProductList").trigger("change");
+          }
+      });
+
+      $('#batchMasterUIModel_NeutralLabel').change(function () {
+          if ($(this).is(":checked")) {
+
+              $("#batchMasterUIModel_ManufactureLicense").prop("disabled", false);
+              $("#batchMasterUIModel_MasterLabel").prop("disabled", false);
+          }
+          else {
+              $("#batchMasterUIModel_ManufactureLicense").prop("disabled", true);
+              $("#batchMasterUIModel_MasterLabel").prop("disabled", true);
+
+          }
+      });
+
+
+    $('#batchMasterUIModel_ManufactureDate').change(function () {
+
+        if ($("#selectedProductList").val() != '') {
+
+            $("#frmProductBatchPrint").append('<input type="text" name="batchMasterUIModelManufactureDate_Change" value="batchMasterUIModelManufactureDate_Change"/>')
+
+            $("#frmProductBatchPrint").submit();
+
+        }
+
+
+
+
+    });
+
+      $("#batchContainerMasterUIModel_NetWeight").on("change", function () {
+           GetGrossWeight();
+      });
+
+      $("#batchContainerMasterUIModel_TareWeight").on("change", function () {
+          GetGrossWeight();
+      });
+
+
+      function GetGrossWeight() {
+          $("#batchContainerMasterUIModel_GrossWeight").val(parseFloat($("#batchContainerMasterUIModel_NetWeight").val()) + parseFloat($("#batchContainerMasterUIModel_TareWeight").val()));
+      }
+
+      $("#selectedProductList").on("change", function () {
+
+          if ($(this).val()) {
+
+              $.ajax({
+              type: "GET",
+              url: '@Url.Action("GetProductDetailById","Product")',
+              data: { productId: $(this).val() },
+              dataType: "json",
+              contentType: "application/json; charset=utf-8",
+                  success: function (data) {
+
+                      if (data.Status == true) {
+
+                          console.log(data.Response);
+                          $("#Id").val(data.Response.Id);
+                          $("#UniqueCode").val(data.Response.UniqueCode);
+                          $("#CAS").val(data.Response.CAS);
+                          $("#ChemicalFormula").val(data.Response.ChemicalFormula);
+
+                          if ($("#batchMasterUIModel_NeutralLabel").is(":checked")) {
+
+                              $("#batchMasterUIModel_ManufactureLicense").prop("disabled", false);;
+                              $("#batchMasterUIModel_MasterLabel").prop("disabled", false);;
+                          }
+                          else {
+                              $("#batchMasterUIModel_ManufactureLicense").val(data.Response.ManufacturerLicence);
+                              $("#batchMasterUIModel_MasterLabel").val(data.Response.MasterLabel);
+                          }
+
+                          $("#MolecularWeight").val(data.Response.MolecularWeight);
+
+
+                          $("#MolecularWeight").val(data.Response.MolecularWeight);
+                          $("#StorageConditon").val(data.Response.StorageConditon);
+                      }
+              },
+              error: function () {
+                  alert("Error while inserting data");
+              }
+          });
+          }
+
+      })
+
+</script>

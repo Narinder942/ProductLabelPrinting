@@ -1,0 +1,57 @@
+﻿@using ProductLabelPrinting.Web.Helpers
+
+@{
+    Layout = null;
+    var employeeObject = new ProductLabelPrinting.Models.Models.EmployeeModel();
+
+    if (Session[SessionHelper.UserDetail] != null)
+    {
+        employeeObject = (Session[SessionHelper.UserDetail] as ProductLabelPrinting.Models.Models.EmployeeModel);
+    }
+}
+
+<div class="modal-dialog ">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Batch List</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-bordered table-responsive" id="tblBatchList">
+                        <thead>
+                            <tr>
+                                <th>Sr.No</th>
+                                <th>Batch No</th>
+                                <th>Size</th>
+                                <th>Manufacture Date</th>
+                                <th>Status</th>
+                                <th>Status Date</th>
+                                <th>Manufacture License</th>
+                                <th>Master Label</th>
+                                <th>Net Wt. </th>
+                                <th>Tare Wt. </th>
+                                <th>Gross Wt. </th>
+                                <th>Container</th>
+                                <th>Created By</th>
+                                <th>Created On</th>
+                                @if (employeeObject.Role == "Admin")
+                                {
+                                    <th>Action</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+           
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="btnCancel" name="btnCancel" data-bs-dismiss="modal" class="btn btn-danger">Close</button>
+        </div>
+
+    </div>
+</div>

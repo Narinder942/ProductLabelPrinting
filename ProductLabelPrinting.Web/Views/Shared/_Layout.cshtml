@@ -1,0 +1,150 @@
+﻿@using ProductLabelPrinting.Web.Helpers
+
+@{
+    var employeeObject = new ProductLabelPrinting.Models.Models.EmployeeModel();
+
+    if (Session[SessionHelper.UserDetail] != null)
+    {
+        employeeObject = (Session[SessionHelper.UserDetail] as ProductLabelPrinting.Models.Models.EmployeeModel);
+    }
+
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>@ViewBag.Title</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="~/Content/Theme/img/favicon.png" rel="icon">
+    <link href="~/Content/Theme/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    @Styles.Render("~/Content/css")
+    @*<link href="~/Content/Theme/vendor/datepicker/bootstrap-datepicker.min.css" rel="stylesheet" />*@
+
+    @Scripts.Render("~/bundles/jquery")
+    @*<script src="~/Content/Theme/vendor/datepicker/bootstrap-datepicker.min.js"></script>*@
+
+    <style>
+        select.form-control {
+            -webkit-appearance: menulist !important;
+            -moz-appearance: menulist !important;
+            -ms-appearance: menulist !important;
+            -o-appearance: menulist !important;
+            appearance: menulist !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="header fixed-top d-flex align-items-center">
+
+        <div class="d-flex align-items-center justify-content-between">
+            <a href="~/Account/Dashboard" class="logo d-flex align-items-center">
+                <img src="~/Content/Theme/img/Viva Group Logo .png" alt="" height="60" width="75">
+                <span class="d-none d-lg-block" style="color: #0957b2;">Viva </span>
+            </a>
+            <i class="bi bi-list toggle-sidebar-btn"></i>
+        </div><!-- End Logo -->
+        <!-------Admin Dasboard logo top Bar --------->
+        <!-- Admin Dasboard logo top Bar -->
+
+        <nav class="header-nav ms-auto">
+            <ul class="d-flex align-items-center">
+
+                <li class="nav-item d-block d-lg-none">
+                    <a class="nav-link nav-icon search-bar-toggle " href="#">
+                        <i class="bi bi-search"></i>
+                    </a>
+                </li><!-- End Search Icon-->
+                <li class="nav-item dropdown pe-3">
+
+                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                        <img width="32" height="32" src="https://img.icons8.com/external-vitaliy-gorbachev-fill-vitaly-gorbachev/60/external-doctor-emergency-vitaliy-gorbachev-fill-vitaly-gorbachev-1.png" alt="external-doctor-emergency-vitaliy-gorbachev-fill-vitaly-gorbachev-1" />
+                        <span class="d-none d-md-block dropdown-toggle ps-2">@employeeObject.EmployeeName</span>
+                    </a><!-- End Profile Iamge Icon -->
+
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                        <li class="dropdown-header">
+                            <h6>Name</h6>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="~/Admin/AccountProfile/accountprofile?userId=Id">
+                                <!-----user id ------>
+                                <img width="25" height="25" src="https://img.icons8.com/fluency/48/gender-neutral-user.png" alt="gender-neutral-user" />
+                                <span> My Profile</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="@Url.Action("SignOut","Account")">
+                                <img width="20" height="20" src="https://img.icons8.com/fluency/100/exit.png" alt="exit" />
+                                <span> Sign Out</span>
+                            </a>
+                        </li>
+
+                    </ul><!-- End Profile Dropdown Items -->
+                </li><!-- End Profile Nav -->
+
+            </ul>
+        </nav><!-- End Icons Navigation -->
+
+    </header><!-- End Header -->
+    <!-- ======= Sidebar ======= -->
+    <aside id="sidebar" class="sidebar">
+
+        <ul class="sidebar-nav" id="sidebar-nav">
+            @if (employeeObject.Role == "Admin")
+            {
+                <li class="nav-item">
+                    <a class="nav-link " href="@Url.Action("Products","Product")">
+                        <i class="bi bi-grid"></i>
+                        <span>Products</span>
+                    </a>
+                </li>
+            }
+            <li class="nav-item">
+                <a class="nav-link " href="@Url.Action("ProductBatchPrint","Product")">
+                    <i class="bi bi-menu-button-wide"></i>
+                    <span>Print Barcode</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="@Url.Action("ProductBatchDetail","Product")">
+                    <i class="bi bi-menu-button-wide"></i>
+                    <span>Batch Details</span>
+                </a>
+            </li>
+
+
+        </ul>
+
+    </aside><!-- End Sidebar-->
+
+    <main id="main" class="main">
+        @RenderBody()
+    </main><!-- End #main -->
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="footer">
+        <div class="copyright">
+            &copy; Copyright <strong><span>Viva Groups</span></strong>. All Rights Reserved
+        </div>
+    </footer><!-- End Footer -->
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    @Scripts.Render("~/bundles/CustomJS")
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

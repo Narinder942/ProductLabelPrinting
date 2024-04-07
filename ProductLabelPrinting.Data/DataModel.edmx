@@ -1,0 +1,470 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ProductLabelPrintingDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BatchContainerItems">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BatchContainerId" Type="int" Nullable="false" />
+          <Property Name="NetWeight" Type="decimal" Precision="6" Scale="2" Nullable="false" />
+          <Property Name="TareWeight" Type="decimal" Precision="6" Scale="2" Nullable="false" />
+          <Property Name="GrossWeight" Type="decimal" Precision="6" Scale="2" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="UpdatedOn" Type="int" />
+          <Property Name="UpdatedBy" Type="datetime" />
+        </EntityType>
+        <EntityType Name="BatchContainerMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BatchId" Type="int" Nullable="false" />
+          <Property Name="NetWeight" Type="decimal" Precision="6" Scale="2" Nullable="false" />
+          <Property Name="TareWeight" Type="decimal" Precision="6" Scale="2" Nullable="false" />
+          <Property Name="GrossWeight" Type="decimal" Precision="6" Scale="2" Nullable="false" />
+          <Property Name="Container" Type="int" Nullable="false" />
+          <Property Name="PackedQuantity" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="UpdatedOn" Type="int" />
+          <Property Name="UpdatedBy" Type="datetime" />
+        </EntityType>
+        <EntityType Name="BatchMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductId" Type="int" />
+          <Property Name="BatchNo" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="BatchSize" Type="decimal" Precision="8" Scale="3" Nullable="false" />
+          <Property Name="ManufactureDate" Type="varchar" MaxLength="20" />
+          <Property Name="ManufStatus" Type="varchar" MaxLength="20" />
+          <Property Name="ManufDate" Type="varchar" MaxLength="20" />
+          <Property Name="ManufactureLicense" Type="varchar" MaxLength="200" />
+          <Property Name="MasterLabel" Type="varchar" MaxLength="100" />
+          <Property Name="NeutralLabel" Type="bit" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="UpdatedBy" Type="int" />
+          <Property Name="UpdatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="EmplyoeeMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Role" Type="varchar" MaxLength="20" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="UniqueCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CAS" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="ChemicalFormula" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ManufacturerLicence" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="MolecularWeight" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="MasterLabel" Type="varchar" MaxLength="150" />
+          <Property Name="StorageConditon" Type="varchar" MaxLength="250" />
+          <Property Name="FinishMode" Type="varchar" MaxLength="30" />
+          <Property Name="FinishMonth" Type="int" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedBy" Type="int" />
+          <Property Name="UpdatedOn" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_BatchContainerItems_BatchContainerMaster">
+          <End Role="BatchContainerMaster" Type="Self.BatchContainerMaster" Multiplicity="1" />
+          <End Role="BatchContainerItems" Type="Self.BatchContainerItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BatchContainerMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BatchContainerItems">
+              <PropertyRef Name="BatchContainerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BatchContainerMaster_BatchMaster">
+          <End Role="BatchMaster" Type="Self.BatchMaster" Multiplicity="1" />
+          <End Role="BatchContainerMaster" Type="Self.BatchContainerMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BatchMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BatchContainerMaster">
+              <PropertyRef Name="BatchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BatchMaster_BatchMaster">
+          <End Role="ProductMaster" Type="Self.ProductMaster" Multiplicity="0..1" />
+          <End Role="BatchMaster" Type="Self.BatchMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BatchMaster">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BatchMaster_EmplyoeeMaster">
+          <End Role="EmplyoeeMaster" Type="Self.EmplyoeeMaster" Multiplicity="0..1" />
+          <End Role="BatchMaster" Type="Self.BatchMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmplyoeeMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BatchMaster">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductMaster_EmplyoeeMaster">
+          <End Role="EmplyoeeMaster" Type="Self.EmplyoeeMaster" Multiplicity="1" />
+          <End Role="ProductMaster" Type="Self.ProductMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmplyoeeMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductMaster">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ProductLabelPrintingDbModelStoreContainer">
+          <EntitySet Name="BatchContainerItems" EntityType="Self.BatchContainerItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BatchContainerMaster" EntityType="Self.BatchContainerMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BatchMaster" EntityType="Self.BatchMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmplyoeeMaster" EntityType="Self.EmplyoeeMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductMaster" EntityType="Self.ProductMaster" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BatchContainerItems_BatchContainerMaster" Association="Self.FK_BatchContainerItems_BatchContainerMaster">
+            <End Role="BatchContainerMaster" EntitySet="BatchContainerMaster" />
+            <End Role="BatchContainerItems" EntitySet="BatchContainerItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BatchContainerMaster_BatchMaster" Association="Self.FK_BatchContainerMaster_BatchMaster">
+            <End Role="BatchMaster" EntitySet="BatchMaster" />
+            <End Role="BatchContainerMaster" EntitySet="BatchContainerMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BatchMaster_BatchMaster" Association="Self.FK_BatchMaster_BatchMaster">
+            <End Role="ProductMaster" EntitySet="ProductMaster" />
+            <End Role="BatchMaster" EntitySet="BatchMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BatchMaster_EmplyoeeMaster" Association="Self.FK_BatchMaster_EmplyoeeMaster">
+            <End Role="EmplyoeeMaster" EntitySet="EmplyoeeMaster" />
+            <End Role="BatchMaster" EntitySet="BatchMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductMaster_EmplyoeeMaster" Association="Self.FK_ProductMaster_EmplyoeeMaster">
+            <End Role="EmplyoeeMaster" EntitySet="EmplyoeeMaster" />
+            <End Role="ProductMaster" EntitySet="ProductMaster" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ProductLabelPrintingDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="EmplyoeeMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="BatchMasters" Relationship="ProductLabelPrintingDbModel.FK_BatchMaster_EmplyoeeMaster" FromRole="EmplyoeeMaster" ToRole="BatchMaster" />
+          <NavigationProperty Name="ProductMasters" Relationship="ProductLabelPrintingDbModel.FK_ProductMaster_EmplyoeeMaster" FromRole="EmplyoeeMaster" ToRole="ProductMaster" />
+          <Property Name="Role" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="ProductLabelPrintingDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="EmplyoeeMasters" EntityType="Self.EmplyoeeMaster" />
+          <EntitySet Name="BatchContainerItems" EntityType="ProductLabelPrintingDbModel.BatchContainerItem" />
+          <EntitySet Name="BatchContainerMasters" EntityType="ProductLabelPrintingDbModel.BatchContainerMaster" />
+          <EntitySet Name="BatchMasters" EntityType="ProductLabelPrintingDbModel.BatchMaster" />
+          <EntitySet Name="ProductMasters" EntityType="ProductLabelPrintingDbModel.ProductMaster" />
+          <AssociationSet Name="FK_BatchContainerItems_BatchContainerMaster" Association="ProductLabelPrintingDbModel.FK_BatchContainerItems_BatchContainerMaster">
+            <End Role="BatchContainerMaster" EntitySet="BatchContainerMasters" />
+            <End Role="BatchContainerItem" EntitySet="BatchContainerItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BatchContainerMaster_BatchMaster" Association="ProductLabelPrintingDbModel.FK_BatchContainerMaster_BatchMaster">
+            <End Role="BatchMaster" EntitySet="BatchMasters" />
+            <End Role="BatchContainerMaster" EntitySet="BatchContainerMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BatchMaster_BatchMaster" Association="ProductLabelPrintingDbModel.FK_BatchMaster_BatchMaster">
+            <End Role="ProductMaster" EntitySet="ProductMasters" />
+            <End Role="BatchMaster" EntitySet="BatchMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BatchMaster_EmplyoeeMaster" Association="ProductLabelPrintingDbModel.FK_BatchMaster_EmplyoeeMaster">
+            <End Role="EmplyoeeMaster" EntitySet="EmplyoeeMasters" />
+            <End Role="BatchMaster" EntitySet="BatchMasters" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductMaster_EmplyoeeMaster" Association="ProductLabelPrintingDbModel.FK_ProductMaster_EmplyoeeMaster">
+            <End Role="EmplyoeeMaster" EntitySet="EmplyoeeMasters" />
+            <End Role="ProductMaster" EntitySet="ProductMasters" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="BatchContainerItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BatchContainerId" Type="Int32" Nullable="false" />
+          <Property Name="NetWeight" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
+          <Property Name="TareWeight" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
+          <Property Name="GrossWeight" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedOn" Type="Int32" />
+          <Property Name="UpdatedBy" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="BatchContainerMaster" Relationship="ProductLabelPrintingDbModel.FK_BatchContainerItems_BatchContainerMaster" FromRole="BatchContainerItem" ToRole="BatchContainerMaster" />
+        </EntityType>
+        <EntityType Name="BatchContainerMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BatchId" Type="Int32" Nullable="false" />
+          <Property Name="NetWeight" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
+          <Property Name="TareWeight" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
+          <Property Name="GrossWeight" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
+          <Property Name="Container" Type="Int32" Nullable="false" />
+          <Property Name="PackedQuantity" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedOn" Type="Int32" />
+          <Property Name="UpdatedBy" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="BatchContainerItems" Relationship="ProductLabelPrintingDbModel.FK_BatchContainerItems_BatchContainerMaster" FromRole="BatchContainerMaster" ToRole="BatchContainerItem" />
+          <NavigationProperty Name="BatchMaster" Relationship="ProductLabelPrintingDbModel.FK_BatchContainerMaster_BatchMaster" FromRole="BatchContainerMaster" ToRole="BatchMaster" />
+        </EntityType>
+        <EntityType Name="BatchMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Int32" />
+          <Property Name="BatchNo" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="BatchSize" Type="Decimal" Nullable="false" Precision="8" Scale="3" />
+          <Property Name="ManufactureDate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ManufStatus" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ManufDate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ManufactureLicense" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="MasterLabel" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NeutralLabel" Type="Boolean" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="BatchContainerMasters" Relationship="ProductLabelPrintingDbModel.FK_BatchContainerMaster_BatchMaster" FromRole="BatchMaster" ToRole="BatchContainerMaster" />
+          <NavigationProperty Name="ProductMaster" Relationship="ProductLabelPrintingDbModel.FK_BatchMaster_BatchMaster" FromRole="BatchMaster" ToRole="ProductMaster" />
+          <NavigationProperty Name="EmplyoeeMaster" Relationship="ProductLabelPrintingDbModel.FK_BatchMaster_EmplyoeeMaster" FromRole="BatchMaster" ToRole="EmplyoeeMaster" />
+        </EntityType>
+        <EntityType Name="ProductMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="UniqueCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CAS" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="ChemicalFormula" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ManufacturerLicence" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="MolecularWeight" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="MasterLabel" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="StorageConditon" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="BatchMasters" Relationship="ProductLabelPrintingDbModel.FK_BatchMaster_BatchMaster" FromRole="ProductMaster" ToRole="BatchMaster" />
+          <NavigationProperty Name="EmplyoeeMaster" Relationship="ProductLabelPrintingDbModel.FK_ProductMaster_EmplyoeeMaster" FromRole="ProductMaster" ToRole="EmplyoeeMaster" />
+          <Property Name="FinishMode" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="FinishMonth" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_BatchContainerItems_BatchContainerMaster">
+          <End Type="ProductLabelPrintingDbModel.BatchContainerMaster" Role="BatchContainerMaster" Multiplicity="1" />
+          <End Type="ProductLabelPrintingDbModel.BatchContainerItem" Role="BatchContainerItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BatchContainerMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BatchContainerItem">
+              <PropertyRef Name="BatchContainerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BatchContainerMaster_BatchMaster">
+          <End Type="ProductLabelPrintingDbModel.BatchMaster" Role="BatchMaster" Multiplicity="1" />
+          <End Type="ProductLabelPrintingDbModel.BatchContainerMaster" Role="BatchContainerMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BatchMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BatchContainerMaster">
+              <PropertyRef Name="BatchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BatchMaster_BatchMaster">
+          <End Type="ProductLabelPrintingDbModel.ProductMaster" Role="ProductMaster" Multiplicity="0..1" />
+          <End Type="ProductLabelPrintingDbModel.BatchMaster" Role="BatchMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BatchMaster">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BatchMaster_EmplyoeeMaster">
+          <End Type="ProductLabelPrintingDbModel.EmplyoeeMaster" Role="EmplyoeeMaster" Multiplicity="0..1" />
+          <End Type="ProductLabelPrintingDbModel.BatchMaster" Role="BatchMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmplyoeeMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="BatchMaster">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductMaster_EmplyoeeMaster">
+          <End Type="ProductLabelPrintingDbModel.EmplyoeeMaster" Role="EmplyoeeMaster" Multiplicity="1" />
+          <End Type="ProductLabelPrintingDbModel.ProductMaster" Role="ProductMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmplyoeeMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductMaster">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ProductLabelPrintingDbModelStoreContainer" CdmEntityContainer="ProductLabelPrintingDbEntities">
+          <EntitySetMapping Name="EmplyoeeMasters">
+            <EntityTypeMapping TypeName="ProductLabelPrintingDbModel.EmplyoeeMaster">
+              <MappingFragment StoreEntitySet="EmplyoeeMaster">
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BatchContainerItems">
+            <EntityTypeMapping TypeName="ProductLabelPrintingDbModel.BatchContainerItem">
+              <MappingFragment StoreEntitySet="BatchContainerItems">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="GrossWeight" ColumnName="GrossWeight" />
+                <ScalarProperty Name="TareWeight" ColumnName="TareWeight" />
+                <ScalarProperty Name="NetWeight" ColumnName="NetWeight" />
+                <ScalarProperty Name="BatchContainerId" ColumnName="BatchContainerId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BatchContainerMasters">
+            <EntityTypeMapping TypeName="ProductLabelPrintingDbModel.BatchContainerMaster">
+              <MappingFragment StoreEntitySet="BatchContainerMaster">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="PackedQuantity" ColumnName="PackedQuantity" />
+                <ScalarProperty Name="Container" ColumnName="Container" />
+                <ScalarProperty Name="GrossWeight" ColumnName="GrossWeight" />
+                <ScalarProperty Name="TareWeight" ColumnName="TareWeight" />
+                <ScalarProperty Name="NetWeight" ColumnName="NetWeight" />
+                <ScalarProperty Name="BatchId" ColumnName="BatchId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BatchMasters">
+            <EntityTypeMapping TypeName="ProductLabelPrintingDbModel.BatchMaster">
+              <MappingFragment StoreEntitySet="BatchMaster">
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="NeutralLabel" ColumnName="NeutralLabel" />
+                <ScalarProperty Name="MasterLabel" ColumnName="MasterLabel" />
+                <ScalarProperty Name="ManufactureLicense" ColumnName="ManufactureLicense" />
+                <ScalarProperty Name="ManufDate" ColumnName="ManufDate" />
+                <ScalarProperty Name="ManufStatus" ColumnName="ManufStatus" />
+                <ScalarProperty Name="ManufactureDate" ColumnName="ManufactureDate" />
+                <ScalarProperty Name="BatchSize" ColumnName="BatchSize" />
+                <ScalarProperty Name="BatchNo" ColumnName="BatchNo" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductMasters">
+            <EntityTypeMapping TypeName="ProductLabelPrintingDbModel.ProductMaster">
+              <MappingFragment StoreEntitySet="ProductMaster">
+                <ScalarProperty Name="FinishMonth" ColumnName="FinishMonth" />
+                <ScalarProperty Name="FinishMode" ColumnName="FinishMode" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="StorageConditon" ColumnName="StorageConditon" />
+                <ScalarProperty Name="MasterLabel" ColumnName="MasterLabel" />
+                <ScalarProperty Name="MolecularWeight" ColumnName="MolecularWeight" />
+                <ScalarProperty Name="ManufacturerLicence" ColumnName="ManufacturerLicence" />
+                <ScalarProperty Name="ChemicalFormula" ColumnName="ChemicalFormula" />
+                <ScalarProperty Name="CAS" ColumnName="CAS" />
+                <ScalarProperty Name="UniqueCode" ColumnName="UniqueCode" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

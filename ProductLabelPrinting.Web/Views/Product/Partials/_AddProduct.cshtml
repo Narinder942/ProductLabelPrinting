@@ -1,0 +1,151 @@
+﻿@model ProductLabelPrinting.Models.UIModels.ProductMasterUIModel
+@{
+    Layout = null;
+}
+
+<div class="modal-dialog" id="dvAddProductModal">
+    <div class="modal-content">
+        @using (Ajax.BeginForm("ProductAddEit", "Product", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "dvAddProductModal", OnSuccess = "AjaxOnSuccess" }))
+        {
+            <div class="modal-header">
+                <h5 class="modal-title">Add Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="location.reload" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @if (Model.SubmitStatus)
+                {
+                    <div class="alert alert-@(Model.ResponseReturn.Status == true ?"success":"danger")  alert-dismissible fade show" role="alert">
+                        <i class="bi bi-check-circle me-1"></i>
+                        @Model.ResponseReturn.Message
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+                @*else if (Model.SubmitStatus == false)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="bi bi-check-circle me-1"></i>
+                            @Model.SubmitMessage
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }*@
+
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(x => x.productUIModel.Id)
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="inputText" class="col-sm-6 col-form-label">@Html.DisplayNameFor(x => x.productUIModel.ProductName)</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(x => x.productUIModel.ProductName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.productUIModel.ProductName, null, new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputText" class="col-sm-6 col-form-label">@Html.DisplayNameFor(x => x.productUIModel.CAS)</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(x => x.productUIModel.CAS, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.productUIModel.CAS, null, new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputText" class="col-sm-6 col-form-label">@Html.DisplayNameFor(x => x.productUIModel.ManufacturerLicence)</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(x => x.productUIModel.ManufacturerLicence, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.productUIModel.ManufacturerLicence, null, new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputText" class="col-sm-6 col-form-label">@Html.DisplayNameFor(x => x.productUIModel.MasterLabel)</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(x => x.productUIModel.MasterLabel, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.productUIModel.MasterLabel, null, new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group mt-4">
+                            <label for="inputText" class="col-sm-6 col-form-label">Model</label>
+                            <div class="col-sm-10">
+                                @Html.DropDownListFor(model => model.productUIModel.FinishMode,
+new List<SelectListItem> {
+new SelectListItem { Value = "Expiry Date" , Text = "Expiry Date" },
+new SelectListItem { Value = "Retest Date" , Text = "Retest Date" },
+
+},
+new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.productUIModel.FinishMode, null, new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="inputText" class="col-sm-6 col-form-label">@Html.DisplayNameFor(x => x.productUIModel.UniqueCode)</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(x => x.productUIModel.UniqueCode, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.productUIModel.UniqueCode, null, new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputText" class="col-sm-6 col-form-label">@Html.DisplayNameFor(x => x.productUIModel.ChemicalFormula)</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(x => x.productUIModel.ChemicalFormula, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.productUIModel.ChemicalFormula, null, new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputText" class="col-sm-6 col-form-label">@Html.DisplayNameFor(x => x.productUIModel.MolecularWeight)</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(x => x.productUIModel.MolecularWeight, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.productUIModel.MolecularWeight, null, new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputText" class="col-sm-6 col-form-label">@Html.DisplayNameFor(x => x.productUIModel.StorageConditon)</label>
+                            <div class="col-sm-10">
+                                @Html.TextAreaFor(x => x.productUIModel.StorageConditon, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.productUIModel.StorageConditon, null, new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputText" class="col-sm-6 col-form-label">Months</label>
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(x => x.productUIModel.FinishMonth, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.productUIModel.FinishMonth, null, new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <button type="submit" class="btn btn-success">Submit</button>
+                <button type="button" id="btnCancel" name="btnCancel" class="btn btn-danger">Cancel</button>
+            </div>
+        }
+    </div>
+</div>
+@*<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>*@
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script>
+
+    if ('@Model.SubmitStatus' == true) {
+
+        ClearControls();
+
+        $(':input', 'form')
+            .not(':button, :submit, :reset')
+            .val('')
+            .prop('checked', false)
+            .prop('selected', false);
+    }
+
+    $("#btnCancel").on('click', function () {
+
+        ClearControls();
+
+    });
+
+    function AjaxOnSuccess(data) {
+
+    }
+
+</script>
